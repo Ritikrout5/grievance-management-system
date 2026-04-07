@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DRIEMS University — Grievance & Solution Management System</title>
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+
+    <!-- ══════════════════════════════════
+     NAVBAR
+══════════════════════════════════ -->
+    <nav>
+        <a class="logo" onclick="goHome()">
+            <div class="logo-mark"><img src="images/DRIEMS-UNIVERSITY-LOGO.png" alt="logo"></div>
+            <div class="logo-text">
+                <b>Grievance Management System</b>
+                <!-- <small>Grievance Management System</small> -->
+            </div>
+        </a>
+        <div id="nav-public">
+            <button class="nbtn ghost" onclick="switchAuthTab('login')">Sign In</button>
+            <button class="nbtn fill" onclick="switchAuthTab('register')">Register</button>
+        </div>
+        <div id="nav-app" style="display:none">
+            <div class="nav-role-chip"><span class="dot"></span><span id="nav-role-label">Student</span></div>
+            <button class="nbtn ghost" onclick="showPanel('profile')">👤 Profile</button>
+            <button class="nbtn danger" onclick="doLogout()">Logout</button>
+        </div>
+    </nav>
+
+    <!-- ══════════════════════════════════
+     LANDING PAGE
+══════════════════════════════════ -->
+    <div style="
+  background-image:
+    linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)),
+    url('images/About-bg-1.jpg');
+  background-size: cover;
+  background-position: center;
+  height: auto;
+">
+        <div id="pg-home" class="page active">
+
+            <div class="hero">
+
+                <!-- Left: Info -->
+                <div class="fade-in">
+                    <div class="hero-badge">🎓 Official University Portal</div>
+                    <h1>
+                        Your Voice,<br>
+                        <span class="accent">Our Priority.</span><br>
+                        <span class="gold">Resolved.</span>
+                    </h1>
+                    <p class="hero-sub">
+                        The official grievance management portal of <strong>DRIEMS University</strong>.
+                        Submit, track, and resolve your concerns with full transparency — anytime, anywhere.
+                    </p>
+                    <div class="hero-kpis">
+                        <div class="kpi"><span class="kpi-n">1,240+</span><span class="kpi-l">Resolved</span></div>
+                        <div class="kpi"><span class="kpi-n">96%</span><span class="kpi-l">Satisfaction</span></div>
+                        <div class="kpi"><span class="kpi-n">48h</span><span class="kpi-l">Avg. Response</span></div>
+                        <div class="kpi"><span class="kpi-n">6</span><span class="kpi-l">Departments</span></div>
+                    </div>
+                    <div class="hero-cta">
+                        <button class="cta-btn cta-primary"
+                            onclick="document.getElementById('auth-section').scrollIntoView({behavior:'smooth'})">
+                            Get Started →
+                        </button>
+                        <button class="cta-btn cta-outline" onclick="openQuickTrack()">🔍 Track Grievance</button>
+                    </div>
+                </div>
+
+                <!-- Right: Auth Card -->
+                <div class="auth-card fade-in" id="auth-section" style="animation-delay:.12s">
+                    <div class="tabs">
+                        <button class="tab on" id="tab-l" onclick="switchAuthTab('login')">Sign In</button>
+                        <button class="tab" id="tab-r" onclick="switchAuthTab('register')">Register</button>
+                    </div>
+
+                    <!-- LOGIN FORM -->
+                    <div id="form-login">
+                        <div class="fg">
+                            <label class="fl">Role</label>
+                            <select class="fs" id="l-role">
+                                <option value="">Select your role</option>
+                                <option value="student">🎓 Student</option>
+                                <option value="staff">🏢 Department Staff</option>
+                                <option value="admin">⚙️ Admin</option>
+                            </select>
+                        </div>
+                        <div class="fg">
+                            <label class="fl">Email / ID</label>
+                            <input class="fi" id="l-email" type="text" placeholder="yourID@gmail.com" />
+                        </div>
+                        <div class="fg">
+                            <label class="fl">Password</label>
+                            <input class="fi" id="l-pass" type="password" placeholder="••••••••" />
+                        </div>
+                        <button class="sbtn" onclick="doLogin()">Sign In to Portal →</button>
+                        <div class="auth-note">Demo: use any email/password. Role determines dashboard.</div>
+                    </div>
+
+                    <!-- REGISTER FORM -->
+                    <div id="form-reg" style="display:none">
+                        <div class="fr">
+                            <div class="fg"><label class="fl">First Name</label><input class="fi" id="r-fn" type="text"
+                                    placeholder="Rahul" /></div>
+                            <div class="fg"><label class="fl">Last Name</label><input class="fi" id="r-ln" type="text"
+                                    placeholder="Kumar" /></div>
+                        </div>
+                        <div class="fg">
+                            <label class="fl">College Email</label>
+                            <input class="fi" id="r-email" type="email" placeholder="rollno@driems.ac.in" />
+                        </div>
+                        <div class="fr">
+                            <div class="fg">
+                                <label class="fl">Role</label>
+                                <select class="fs" id="r-role">
+                                    <option>Student</option>
+                                    <option>Faculty</option>
+                                </select>
+                            </div>
+                            <div class="fg">
+                                <label class="fl">Department</label>
+                                <select class="fs" id="r-dept">
+                                    <option>Computer Science</option>
+                                    <option>Electronics</option>
+                                    <option>Mechanical</option>
+                                    <option>Civil</option>
+                                    <option>Pharmacy</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="fg">
+                            <label class="fl">Roll No / Employee ID</label>
+                            <input class="fi" type="text" placeholder="21CS001" />
+                        </div>
+                        <div class="fr">
+                            <div class="fg"><label class="fl">Password</label><input class="fi" type="password"
+                                    placeholder="Create password" /></div>
+                            <div class="fg"><label class="fl">Confirm Password</label><input class="fi" type="password"
+                                    placeholder="Repeat password" /></div>
+                        </div>
+                        <button class="sbtn" onclick="doRegister()">Create Account →</button>
+                    </div>
+                </div><!-- /auth-card -->
+            </div><!-- /hero -->
+        </div><!-- /pg-home -->
+
+
+        <!-- ══════════════════════════════════
+     STUDENT APP
+══════════════════════════════════ -->
+        <div id="pg-student" class="page">
+            <div class="app-shell">
+
+                <!-- SIDEBAR -->
+                <div class="sidebar">
+                    <div class="sidebar-section-label">Student Menu</div>
+                    <div class="slink on" onclick="showPanel('s-home')" id="sl-s-home"> <span class="icon">🏠</span>
+                        Dashboard</div>
+                    <div class="slink" onclick="showPanel('s-submit')" id="sl-s-submit"> <span class="icon">📝</span>
+                        Submit
+                        Grievance</div>
+                    <div class="slink" onclick="showPanel('s-track')" id="sl-s-track"> <span class="icon">🔍</span>
+                        Track
+                        Grievance</div>
+                    <div class="slink" onclick="showPanel('s-list')" id="sl-s-list"> <span class="icon">📋</span> My
+                        Grievances <span class="badge" id="s-badge">0</span></div>
+                    <div class="slink" onclick="showPanel('s-feedback')" id="sl-s-feedback"><span class="icon">⭐</span>
+                        Feedback</div>
+                    <div class="slink" onclick="showPanel('profile')" id="sl-profile"> <span class="icon">👤</span>
+                        Profile
+                    </div>
+                    <div style="flex:1"></div>
+                    <div class="slink" onclick="doLogout()"><span class="icon">🚪</span> Logout</div>
+                </div>
+
+                <!-- MAIN CONTENT -->
+                <div class="main-content" id="student-main">
+
+                    <!-- ── DASHBOARD ── -->
+                    <div id="panel-s-home" class="panel on fade-in">
+                        <div class="panel-head">
+                            <h2>Welcome, <span id="s-username">Student</span> 👋</h2>
+                            <p id="s-date">DRIEMS University — Student Grievance Portal</p>
+                        </div>
+                        <div class="stat-grid">
+                            <div class="stat-card fade-in">
+                                <div class="sc-icon blue">📋</div>
+                                <h3 id="ss-total">0</h3>
+                                <p>Total Submitted</p>
+                            </div>
+                            <div class="stat-card fade-in">
+                                <div class="sc-icon gold">⏳</div>
+                                <h3 id="ss-pend">0</h3>
+                                <p>Pending</p>
+                            </div>
+                            <div class="stat-card fade-in">
+                                <div class="sc-icon sky">🔄</div>
+                                <h3 id="ss-prog">0</h3>
+                                <p>In Progress</p>
+                            </div>
+                            <div class="stat-card fade-in">
+                                <div class="sc-icon green">✅</div>
+                                <h3 id="ss-res">0</h3>
+                                <p>Resolved</p>
+                            </div>
+                        </div>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.2rem">
+                            <div class="card card-top">
+                                <div class="card-pad">
+                                    <div style="font-weight:700;color:var(--navy);font-size:1rem;margin-bottom:1rem">
+                                        Quick
+                                        Actions</div>
+                                    <div style="display:flex;flex-direction:column;gap:.6rem">
+                                        <button class="sbtn" onclick="showPanel('s-submit')">📝 Submit New
+                                            Grievance</button>
+                                        <button class="sbtn"
+                                            style="background:linear-gradient(135deg,var(--gold),#a87208)"
+                                            onclick="showPanel('s-track')">🔍 Track a Grievance</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card card-top">
+                                <div class="card-pad">
+                                    <div style="font-weight:700;color:var(--navy);font-size:1rem;margin-bottom:.8rem">
+                                        Recent
+                                        Activity</div>
+                                    <div id="s-recent-list">
+                                        <div class="empty" style="padding:1rem">No activity yet.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card card-top" style="margin-top:1.2rem">
+                            <div class="card-pad">
+                                <div style="font-weight:700;color:var(--navy);font-size:1rem;margin-bottom:1rem">⚠️
+                                    Important Guidelines</div>
+                                <div
+                                    style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;font-size:.83rem;color:var(--muted);line-height:1.6">
+                                    <div>• Submit grievances honestly and factually</div>
+                                    <div>• Attach proof if available (images, documents)</div>
+                                    <div>• Use the correct category for faster resolution</div>
+                                    <div>• Response time: 48 working hours</div>
+                                    <div>• You can reopen a grievance if unsatisfied</div>
+                                    <div>• Contact admin for urgent issues</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ── SUBMIT GRIEVANCE ── -->
+                    <div id="panel-s-submit" class="panel fade-in">
+                        <div class="panel-head">
+                            <h2>Submit a Grievance</h2>
+                            <p>Describe your issue clearly. All complaints are treated confidentially.</p>
+                        </div>
+                        <div class="card card-top">
+                            <div class="card-pad">
+                                <div class="fr">
+                                    <div class="fg"><label class="fl">Full Name</label><input class="fi" id="g-name"
+                                            placeholder="Your full name" /></div>
+                                    <div class="fg"><label class="fl">Roll No / Employee ID</label><input class="fi"
+                                            id="g-roll" placeholder="21CS001" /></div>
+                                </div>
+                                <div class="fr">
+                                    <div class="fg">
+                                        <label class="fl">Department</label>
+                                        <select class="fs" id="g-dept">
+                                            <option value="">Select Department</option>
+                                            <option>Computer Science & Engineering</option>
+                                            <option>Electronics & Communication</option>
+                                            <option>Mechanical Engineering</option>
+                                            <option>Civil Engineering</option>
+                                            <option>Pharmacy</option>
+                                            <option>Nursing</option>
+                                            <option>Business Administration</option>
+                                            <option>Library</option>
+                                            <option>Hostel / Facilities</option>
+                                            <option>Finance / Fees</option>
+                                            <option>Administration</option>
+                                            <option>Other</option>
+                                        </select>
+                                    </div>
+                                    <div class="fg">
+                                        <label class="fl">Category</label>
+                                        <select class="fs" id="g-cat">
+                                            <option value="">Select Category</option>
+                                            <option>Academic / Examination</option>
+                                            <option>Faculty / Teaching Quality</option>
+                                            <option>Infrastructure / Facilities</option>
+                                            <option>Hostel / Accommodation</option>
+                                            <option>Fees / Finance</option>
+                                            <option>Harassment / Discrimination</option>
+                                            <option>Library Services</option>
+                                            <option>Internet / IT Services</option>
+                                            <option>Canteen / Food Quality</option>
+                                            <option>Health / Medical</option>
+                                            <option>Sports / Extracurricular</option>
+                                            <option>Other</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="fg"><label class="fl">Subject</label><input class="fi" id="g-sub"
+                                        placeholder="Brief title of your grievance" /></div>
+                                <div class="fg">
+                                    <label class="fl">Detailed Description</label>
+                                    <textarea class="ft" id="g-desc"
+                                        placeholder="Describe your grievance in detail. Include relevant dates, names, locations, and events..."></textarea>
+                                </div>
+                                <div class="fg">
+                                    <label class="fl">Priority Level</label>
+                                    <div class="prio-row">
+                                        <button class="pbtn low on" onclick="setPrio('low',this)">🟢 Low</button>
+                                        <button class="pbtn med" onclick="setPrio('med',this)">🟡 Medium</button>
+                                        <button class="pbtn high" onclick="setPrio('high',this)">🔴 High</button>
+                                    </div>
+                                </div>
+                                <div class="fg">
+                                    <label class="fl">Upload Proof (Optional)</label>
+                                    <div class="upload-area" id="upload-area"
+                                        ondragover="event.preventDefault();this.classList.add('drag')"
+                                        ondragleave="this.classList.remove('drag')" ondrop="handleDrop(event)">
+                                        <input type="file" multiple accept="image/*,.pdf,.doc,.docx"
+                                            onchange="handleFiles(this.files)" />
+                                        <div class="upload-icon">📎</div>
+                                        <p><b>Click to upload</b> or drag & drop files here</p>
+                                        <p style="margin-top:.3rem;font-size:.75rem">Supports: Images, PDF, DOC • Max
+                                            5MB
+                                            each</p>
+                                    </div>
+                                    <div class="file-preview" id="file-preview"></div>
+                                </div>
+                                <div class="divider"></div>
+                                <div style="display:flex;gap:.8rem">
+                                    <button class="sbtn" style="flex:2" onclick="submitGrievance()">Submit Grievance
+                                        →</button>
+                                    <button onclick="showPanel('s-home')"
+                                        style="flex:1;padding:.85rem;border-radius:11px;border:2px solid var(--cobalt);background:transparent;color:var(--cobalt);cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600">
+                                        Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ── TRACK GRIEVANCE ── -->
+                    <div id="panel-s-track" class="panel fade-in">
+                        <div class="panel-head">
+                            <h2>Track Your Grievance</h2>
+                            <p>Enter your Grievance ID for real-time status updates.</p>
+                        </div>
+                        <div class="card card-top">
+                            <div class="card-pad">
+                                <div style="display:flex;gap:.8rem;align-items:flex-end">
+                                    <div class="fg" style="flex:1;margin-bottom:0">
+                                        <label class="fl">Grievance ID</label>
+                                        <input class="fi" id="track-id-input" placeholder="e.g. GRV-2024-001"
+                                            onkeydown="if(event.key==='Enter')trackGrievance()" />
+                                    </div>
+                                    <button class="sbtn" style="padding:.7rem 1.6rem;width:auto"
+                                        onclick="trackGrievance()">Track →</button>
+                                </div>
+                                <!-- Result section -->
+                                <div id="track-result" style="display:none;margin-top:1.5rem">
+                                    <div class="divider"></div>
+                                    <div
+                                        style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem">
+                                        <div>
+                                            <div style="font-size:.78rem;color:var(--muted)" id="tr-gid"></div>
+                                            <div style="font-size:1.1rem;font-weight:700;color:var(--navy);margin-top:.2rem"
+                                                id="tr-sub"></div>
+                                        </div>
+                                        <span class="badge" id="tr-badge"></span>
+                                    </div>
+                                    <div
+                                        style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.2rem">
+                                        <div>
+                                            <div
+                                                style="font-size:.7rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.04em">
+                                                Category</div>
+                                            <div style="font-size:.87rem;font-weight:600;color:var(--navy);margin-top:.2rem"
+                                                id="tr-cat"></div>
+                                        </div>
+                                        <div>
+                                            <div
+                                                style="font-size:.7rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.04em">
+                                                Submitted</div>
+                                            <div style="font-size:.87rem;font-weight:600;color:var(--navy);margin-top:.2rem"
+                                                id="tr-date"></div>
+                                        </div>
+                                        <div>
+                                            <div
+                                                style="font-size:.7rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.04em">
+                                                Priority</div>
+                                            <div style="font-size:.87rem;font-weight:600;color:var(--navy);margin-top:.2rem"
+                                                id="tr-prio"></div>
+                                        </div>
+                                    </div>
+                                    <div id="tr-response-wrap" style="display:none">
+                                        <div
+                                            style="font-size:.78rem;font-weight:700;color:var(--navy);margin-bottom:.4rem">
+                                            📬 AUTHORITY RESPONSE</div>
+                                        <div class="response-box">
+                                            <p id="tr-response-text"></p><small id="tr-response-by"></small>
+                                        </div>
+                                    </div>
+                                    <div style="font-size:.78rem;font-weight:700;color:var(--navy);margin:1rem 0 .5rem">
+                                        RESOLUTION TIMELINE</div>
+                                    <div class="timeline" id="tr-timeline"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ── MY GRIEVANCES ── -->
+                    <div id="panel-s-list" class="panel fade-in">
+                        <div class="panel-head">
+                            <h2>My Grievances</h2>
+                            <p>All grievances submitted by you.</p>
+                        </div>
+                        <div class="filter-row">
+                            <div class="search-box"><span>🔍</span><input type="text" placeholder="Search grievances..."
+                                    oninput="filterSList(this.value)" /></div>
+                            <select class="fs" style="width:140px" onchange="filterSListStatus(this.value)">
+                                <option value="">All Status</option>
+                                <option>Submitted</option>
+                                <option>Under Review</option>
+                                <option>In Progress</option>
+                                <option>Resolved</option>
+                                <option>Rejected</option>
+                            </select>
+                            <button class="abtn primary" onclick="showPanel('s-submit')">+ New</button>
+                        </div>
+                        <div class="card">
+                            <div class="tbl-wrap">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>GID</th>
+                                            <th>Subject</th>
+                                            <th>Category</th>
+                                            <th>Priority</th>
+                                            <th>Date</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="s-list-tbody">
+                                        <tr>
+                                            <td colspan="7" class="empty">No grievances yet.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ── FEEDBACK ── -->
+                    <div id="panel-s-feedback" class="panel fade-in">
+                        <div class="panel-head">
+                            <h2>Feedback & Ratings</h2>
+                            <p>Rate the resolution quality for your resolved grievances.</p>
+                        </div>
+                        <div id="feedback-list">
+                            <div class="empty">No resolved grievances to rate yet.</div>
+                        </div>
+                    </div>
+
+                </div><!-- /student-main -->
+            </div><!-- /app-shell -->
+        </div><!-- /pg-student -->
+
+
+        <!-- ══════════════════════════════════
+     ADMIN APP
+══════════════════════════════════ -->
+        <div id="pg-admin" class="page">
+            <div class="app-shell">
+                <div class="sidebar">
+                    <div class="sidebar-section-label">Admin Panel</div>
+                    <div class="slink on" onclick="showPanel('a-home')" id="sl-a-home"> <span class="icon">📊</span>
+                        Dashboard</div>
+                    <div class="slink" onclick="showPanel('a-all')" id="sl-a-all"> <span class="icon">📋</span> All
+                        Grievances <span class="badge" id="a-badge">0</span></div>
+                    <div class="slink" onclick="showPanel('a-assign')" id="sl-a-assign"> <span class="icon">🎯</span>
+                        Assign
+                        & Manage</div>
+                    <div class="slink" onclick="showPanel('a-reports')" id="sl-a-reports"><span class="icon">📈</span>
+                        Reports</div>
+                    <div class="slink" onclick="showPanel('a-users')" id="sl-a-users"> <span class="icon">👥</span> User
+                        Management</div>
+                    <div class="slink" onclick="showPanel('profile')" id="sl-a-profile"><span class="icon">👤</span>
+                        Profile
+                    </div>
+                    <div style="flex:1"></div>
+                    <div class="slink" onclick="doLogout()"><span class="icon">🚪</span> Logout</div>
+                </div>
+                <div class="main-content" id="admin-main">
+
+                    <!-- ── ADMIN DASHBOARD ── -->
+                    <div id="panel-a-home" class="panel on fade-in">
+                        <div class="panel-head">
+                            <h2>Admin Dashboard</h2>
+                            <p>Overview of all grievances across DRIEMS University</p>
+                        </div>
+                        <div class="stat-grid">
+                            <div class="stat-card fade-in">
+                                <div class="sc-icon blue">📋</div>
+                                <h3 id="as-total">0</h3>
+                                <p>Total Grievances</p>
+                            </div>
+                            <div class="stat-card fade-in">
+                                <div class="sc-icon gold">⏳</div>
+                                <h3 id="as-pend">0</h3>
+                                <p>Pending Review</p>
+                            </div>
+                            <div class="stat-card fade-in">
+                                <div class="sc-icon sky">🔄</div>
+                                <h3 id="as-prog">0</h3>
+                                <p>In Progress</p>
+                            </div>
+                            <div class="stat-card fade-in">
+                                <div class="sc-icon green">✅</div>
+                                <h3 id="as-res">0</h3>
+                                <p>Resolved</p>
+                            </div>
+                        </div>
+                        <div style="display:grid;grid-template-columns:2fr 1fr;gap:1.2rem">
+                            <div class="card card-top">
+                                <div class="card-pad">
+                                    <div style="font-weight:700;color:var(--navy);margin-bottom:1rem">Recent Submissions
+                                    </div>
+                                    <div class="tbl-wrap">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>GID</th>
+                                                    <th>Subject</th>
+                                                    <th>Category</th>
+                                                    <th>Priority</th>
+                                                    <th>Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="a-recent-tbody">
+                                                <tr>
+                                                    <td colspan="5" class="empty">No grievances yet.</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card card-top">
+                                <div class="card-pad">
+                                    <div style="font-weight:700;color:var(--navy);margin-bottom:1rem">By Department
+                                    </div>
+                                    <div id="dept-chart">
+                                        <div class="text-muted">No data yet.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-top:1.2rem">
+                            <div class="card card-top">
+                                <div class="card-pad">
+                                    <div style="font-weight:700;color:var(--navy);margin-bottom:1rem">Priority
+                                        Distribution
+                                    </div>
+                                    <div id="prio-chart">
+                                        <div class="text-muted">No data yet.</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card card-top">
+                                <div class="card-pad">
+                                    <div style="font-weight:700;color:var(--navy);margin-bottom:1rem">Status Overview
+                                    </div>
+                                    <div id="status-chart">
+                                        <div class="text-muted">No data yet.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ── ALL GRIEVANCES ── -->
+                    <div id="panel-a-all" class="panel fade-in">
+                        <div class="panel-head">
+                            <h2>All Grievances</h2>
+                            <p>View, filter, and manage all submitted grievances.</p>
+                        </div>
+                        <div class="filter-row">
+                            <div class="search-box"><span>🔍</span><input type="text"
+                                    placeholder="Search by ID, subject, name..." oninput="filterAdmin(this.value)" />
+                            </div>
+                            <select class="fs" style="width:140px" onchange="filterAdminStatus(this.value)">
+                                <option value="">All Status</option>
+                                <option>Submitted</option>
+                                <option>Under Review</option>
+                                <option>In Progress</option>
+                                <option>Resolved</option>
+                                <option>Rejected</option>
+                            </select>
+                            <select class="fs" style="width:130px" onchange="filterAdminPrio(this.value)">
+                                <option value="">All Priority</option>
+                                <option value="low">Low</option>
+                                <option value="med">Medium</option>
+                                <option value="high">High</option>
+                            </select>
+                        </div>
+                        <div class="card">
+                            <div class="tbl-wrap">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>GID</th>
+                                            <th>Name</th>
+                                            <th>Department</th>
+                                            <th>Subject</th>
+                                            <th>Priority</th>
+                                            <th>Date</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="a-all-tbody">
+                                        <tr>
+                                            <td colspan="8" class="empty">No grievances.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ── ASSIGN & MANAGE ── -->
+                    <div id="panel-a-assign" class="panel fade-in">
+                        <div class="panel-head">
+                            <h2>Assign & Manage</h2>
+                            <p>Assign grievances to departments, update status, provide solutions.</p>
+                        </div>
+                        <div class="card card-top">
+                            <div class="card-pad">
+                                <div style="font-weight:700;color:var(--navy);margin-bottom:1rem">🎯 Unassigned
+                                    Grievances
+                                </div>
+                                <div id="unassigned-list">
+                                    <div class="empty">All grievances have been assigned.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ── REPORTS ── -->
+                    <div id="panel-a-reports" class="panel fade-in">
+                        <div class="panel-head">
+                            <h2>Reports & Analytics</h2>
+                            <p>Monthly performance reports and department-wise analysis.</p>
+                        </div>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.2rem">
+                            <div class="card card-top">
+                                <div class="card-pad">
+                                    <div style="font-weight:700;color:var(--navy);margin-bottom:1rem">📊 Monthly Summary
+                                    </div>
+                                    <div id="monthly-report">
+                                        <div class="text-muted">No data available.</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card card-top">
+                                <div class="card-pad">
+                                    <div style="font-weight:700;color:var(--navy);margin-bottom:1rem">🏢 Department
+                                        Performance</div>
+                                    <div id="dept-perf">
+                                        <div class="text-muted">No data available.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card card-top" style="margin-top:1.2rem">
+                            <div class="card-pad">
+                                <div style="font-weight:700;color:var(--navy);margin-bottom:1rem">📋 Pending vs Resolved
+                                </div>
+                                <div id="pend-res-chart"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ── USER MANAGEMENT ── -->
+                    <div id="panel-a-users" class="panel fade-in">
+                        <div class="panel-head">
+                            <h2>User Management</h2>
+                            <p>Manage students, faculty, and staff accounts.</p>
+                        </div>
+                        <div class="stat-grid" style="grid-template-columns:repeat(3,1fr)">
+                            <div class="stat-card">
+                                <div class="sc-icon blue">🎓</div>
+                                <h3 id="u-students">1</h3>
+                                <p>Students</p>
+                            </div>
+                            <div class="stat-card">
+                                <div class="sc-icon gold">🏢</div>
+                                <h3 id="u-staff">1</h3>
+                                <p>Staff</p>
+                            </div>
+                            <div class="stat-card">
+                                <div class="sc-icon green">⚙️</div>
+                                <h3>1</h3>
+                                <p>Admins</p>
+                            </div>
+                        </div>
+                        <div class="card card-top">
+                            <div class="card-pad">
+                                <div style="font-weight:700;color:var(--navy);margin-bottom:1rem">Registered Users</div>
+                                <div class="tbl-wrap">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Email</th>
+                                                <th>Role</th>
+                                                <th>Department</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="users-tbody">
+                                            <tr>
+                                                <td>Demo Student</td>
+                                                <td>student@driems.ac.in</td>
+                                                <td><span class="badge b-sub">Student</span></td>
+                                                <td>Computer Science</td>
+                                                <td><span class="badge b-res">Active</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Staff Member</td>
+                                                <td>staff@driems.ac.in</td>
+                                                <td><span class="badge b-review">Staff</span></td>
+                                                <td>Electronics</td>
+                                                <td><span class="badge b-res">Active</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Admin User</td>
+                                                <td>admin@driems.ac.in</td>
+                                                <td><span class="badge b-prog">Admin</span></td>
+                                                <td>Administration</td>
+                                                <td><span class="badge b-res">Active</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div><!-- /admin-main -->
+            </div><!-- /app-shell -->
+        </div><!-- /pg-admin -->
+
+
+        <!-- ══════════════════════════════════
+     STAFF APP
+══════════════════════════════════ -->
+        <div id="pg-staff" class="page">
+            <div class="app-shell">
+                <div class="sidebar">
+                    <div class="sidebar-section-label">Department Staff</div>
+                    <div class="slink on" onclick="showPanel('st-home')" id="sl-st-home"> <span class="icon">🏠</span>
+                        Dashboard</div>
+                    <div class="slink" onclick="showPanel('st-assigned')" id="sl-st-assigned"><span
+                            class="icon">📋</span>
+                        Assigned <span class="badge" id="st-badge">0</span></div>
+                    <div class="slink" onclick="showPanel('st-respond')" id="sl-st-respond"> <span
+                            class="icon">💬</span>
+                        Respond & Resolve</div>
+                    <div class="slink" onclick="showPanel('profile')" id="sl-st-profile"> <span class="icon">👤</span>
+                        Profile</div>
+                    <div style="flex:1"></div>
+                    <div class="slink" onclick="doLogout()"><span class="icon">🚪</span> Logout</div>
+                </div>
+                <div class="main-content" id="staff-main">
+
+                    <!-- ── STAFF DASHBOARD ── -->
+                    <div id="panel-st-home" class="panel on fade-in">
+                        <div class="panel-head">
+                            <h2>Staff Dashboard</h2>
+                            <p id="st-dept-label">Department: —</p>
+                        </div>
+                        <div class="stat-grid" style="grid-template-columns:repeat(3,1fr)">
+                            <div class="stat-card fade-in">
+                                <div class="sc-icon gold">📥</div>
+                                <h3 id="st-assigned-n">0</h3>
+                                <p>Assigned to Me</p>
+                            </div>
+                            <div class="stat-card fade-in">
+                                <div class="sc-icon sky">🔄</div>
+                                <h3 id="st-prog-n">0</h3>
+                                <p>In Progress</p>
+                            </div>
+                            <div class="stat-card fade-in">
+                                <div class="sc-icon green">✅</div>
+                                <h3 id="st-res-n">0</h3>
+                                <p>Resolved</p>
+                            </div>
+                        </div>
+                        <div class="card card-top">
+                            <div class="card-pad">
+                                <div style="font-weight:700;color:var(--navy);margin-bottom:1rem">📌 Pending Grievances
+                                </div>
+                                <div id="st-pending-list">
+                                    <div class="empty">No pending grievances.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ── ASSIGNED LIST ── -->
+                    <div id="panel-st-assigned" class="panel fade-in">
+                        <div class="panel-head">
+                            <h2>Assigned Grievances</h2>
+                            <p>Grievances assigned to your department.</p>
+                        </div>
+                        <div class="card">
+                            <div class="tbl-wrap">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>GID</th>
+                                            <th>Subject</th>
+                                            <th>Category</th>
+                                            <th>Priority</th>
+                                            <th>Date</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="st-list-tbody">
+                                        <tr>
+                                            <td colspan="7" class="empty">No grievances assigned.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ── RESPOND & RESOLVE ── -->
+                    <div id="panel-st-respond" class="panel fade-in">
+                        <div class="panel-head">
+                            <h2>Respond & Resolve</h2>
+                            <p>Select a grievance to provide action taken details and update status.</p>
+                        </div>
+                        <div class="card card-top">
+                            <div class="card-pad">
+                                <div class="fg">
+                                    <label class="fl">Select Grievance</label>
+                                    <select class="fs" id="st-select-g" onchange="loadStaffGrievance(this.value)">
+                                        <option value="">-- Select a grievance --</option>
+                                    </select>
+                                </div>
+                                <div id="st-grievance-detail" style="display:none">
+                                    <div class="divider"></div>
+                                    <div class="detail-grid">
+                                        <div class="detail-item"><label>Subject</label><span id="std-sub"></span></div>
+                                        <div class="detail-item"><label>Category</label><span id="std-cat"></span></div>
+                                        <div class="detail-item"><label>Submitted by</label><span id="std-name"></span>
+                                        </div>
+                                        <div class="detail-item"><label>Priority</label><span id="std-prio"></span>
+                                        </div>
+                                    </div>
+                                    <div class="fg">
+                                        <label class="fl">Description</label>
+                                        <div style="background:var(--bg);border-radius:9px;padding:.9rem;font-size:.85rem;color:var(--text);line-height:1.6;border:1.5px solid var(--border)"
+                                            id="std-desc"></div>
+                                    </div>
+                                    <div class="fg">
+                                        <label class="fl">Action Taken / Response</label>
+                                        <textarea class="ft" id="st-response"
+                                            placeholder="Describe the action taken to resolve this grievance..."></textarea>
+                                    </div>
+                                    <div class="fg">
+                                        <label class="fl">Update Status</label>
+                                        <select class="fs" id="st-new-status">
+                                            <option value="Under Review">Under Review</option>
+                                            <option value="In Progress">In Progress</option>
+                                            <option value="Resolved">Resolved</option>
+                                            <option value="Rejected">Rejected</option>
+                                        </select>
+                                    </div>
+                                    <div class="fg">
+                                        <label class="fl">Upload Resolution Proof (Optional)</label>
+                                        <div class="upload-area" style="padding:1.2rem">
+                                            <input type="file" multiple accept="image/*,.pdf"
+                                                onchange="handleStaffFiles(this.files)" />
+                                            <div style="font-size:1.4rem">📸</div>
+                                            <p style="font-size:.82rem;color:var(--muted)"><b>Upload images/docs</b> as
+                                                proof of resolution</p>
+                                        </div>
+                                        <div class="file-preview" id="staff-file-preview"></div>
+                                    </div>
+                                    <button class="sbtn" onclick="submitStaffResponse()">Submit Response & Update Status
+                                        →</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div><!-- /staff-main -->
+            </div><!-- /app-shell -->
+        </div><!-- /pg-staff -->
+
+
+        <!-- ══════════════════════════════════
+     PROFILE PAGE (shared)
+══════════════════════════════════ -->
+        <div id="pg-profile" class="page" style="min-height:100vh;padding:84px 2rem 3rem">
+            <div style="max-width:700px;margin:0 auto">
+                <div class="profile-hero">
+                    <div class="profile-avatar" id="pf-av">U</div>
+                    <div class="profile-info">
+                        <h3 id="pf-name">User Name</h3>
+                        <p id="pf-email">email@driems.ac.in</p>
+                        <div class="profile-chips">
+                            <span class="pchip" id="pf-role">Role</span>
+                            <span class="pchip" id="pf-dept">Department</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card card-top">
+                    <div class="card-pad">
+                        <div style="font-weight:700;color:var(--navy);margin-bottom:1.2rem">Edit Profile</div>
+                        <div class="fr">
+                            <div class="fg"><label class="fl">Display Name</label><input class="fi"
+                                    id="pf-name-input" />
+                            </div>
+                            <div class="fg"><label class="fl">Phone Number</label><input class="fi" type="tel"
+                                    placeholder="+91 XXXXX XXXXX" /></div>
+                        </div>
+                        <div class="fg"><label class="fl">Address</label><input class="fi" placeholder="Your address" />
+                        </div>
+                        <button class="sbtn" style="width:auto;padding:.7rem 1.8rem" onclick="saveProfile()">Save
+                            Changes</button>
+                        <button class="sbtn" style="width:auto;padding:.7rem 1.8rem" onclick="goDashboard()">← Back
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- ══════════════════════════════════
+     MODALS
+══════════════════════════════════ -->
+
+        <!-- Grievance Detail Modal -->
+        <div class="overlay" id="modal-detail">
+            <div class="modal">
+                <button class="modal-close" onclick="closeModal('modal-detail')">✕</button>
+                <h3 style="margin-bottom:.3rem" id="md-sub">Grievance Details</h3>
+                <div style="font-size:.78rem;color:var(--muted);margin-bottom:1rem" id="md-gid"></div>
+                <div class="detail-grid">
+                    <div class="detail-item"><label>Name</label><span id="md-name"></span></div>
+                    <div class="detail-item"><label>Roll/ID</label><span id="md-roll"></span></div>
+                    <div class="detail-item"><label>Department</label><span id="md-dept"></span></div>
+                    <div class="detail-item"><label>Category</label><span id="md-cat"></span></div>
+                    <div class="detail-item"><label>Priority</label><span id="md-prio"></span></div>
+                    <div class="detail-item"><label>Status</label><span id="md-status"></span></div>
+                </div>
+                <div style="font-size:.78rem;font-weight:700;color:var(--navy);margin-bottom:.4rem">DESCRIPTION</div>
+                <div style="background:var(--bg);border-radius:9px;padding:.9rem;font-size:.85rem;line-height:1.6;color:var(--text);margin-bottom:1rem"
+                    id="md-desc"></div>
+                <div id="md-files-wrap" style="display:none">
+                    <div style="font-size:.78rem;font-weight:700;color:var(--navy);margin-bottom:.4rem">PROOF UPLOADED
+                    </div>
+                    <div class="file-preview" id="md-files"></div>
+                </div>
+                <div id="md-response-wrap" style="display:none;margin-top:.8rem">
+                    <div style="font-size:.78rem;font-weight:700;color:var(--navy);margin-bottom:.4rem">📬 AUTHORITY
+                        RESPONSE</div>
+                    <div class="response-box">
+                        <p id="md-response"></p><small id="md-response-by"></small>
+                    </div>
+                </div>
+                <!-- Admin actions -->
+                <div id="md-admin-actions" style="display:none;margin-top:1.2rem">
+                    <div class="divider"></div>
+                    <div style="font-weight:700;color:var(--navy);margin-bottom:.8rem">Admin Actions</div>
+                    <div class="fr" style="margin-bottom:.8rem">
+                        <div class="fg">
+                            <label class="fl">Assign to Department</label>
+                            <select class="fs" id="md-assign-dept">
+                                <option>Computer Science & Engineering</option>
+                                <option>Electronics & Communication</option>
+                                <option>Mechanical Engineering</option>
+                                <option>Civil Engineering</option>
+                                <option>Pharmacy</option>
+                                <option>Nursing</option>
+                                <option>Finance / Fees</option>
+                                <option>Administration</option>
+                                <option>Library</option>
+                            </select>
+                        </div>
+                        <div class="fg">
+                            <label class="fl">Change Priority</label>
+                            <select class="fs" id="md-prio-select">
+                                <option value="low">🟢 Low</option>
+                                <option value="med">🟡 Medium</option>
+                                <option value="high">🔴 High</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="fg">
+                        <label class="fl">Status Update</label>
+                        <select class="fs" id="md-status-select">
+                            <option>Submitted</option>
+                            <option>Under Review</option>
+                            <option>In Progress</option>
+                            <option>Resolved</option>
+                            <option>Rejected</option>
+                        </select>
+                    </div>
+                    <div class="fg">
+                        <label class="fl">Admin Notes / Response</label>
+                        <textarea class="ft" id="md-admin-note"
+                            placeholder="Provide solution details or admin response..."
+                            style="min-height:80px"></textarea>
+                    </div>
+                    <div class="modal-btns">
+                        <button class="sbtn" onclick="adminUpdateGrievance()">Update Grievance →</button>
+                    </div>
+                </div>
+                <!-- Reopen -->
+                <div id="md-reopen-wrap" style="display:none;margin-top:.8rem">
+                    <div class="divider"></div>
+                    <div style="font-size:.85rem;color:var(--muted);margin-bottom:.7rem">Not satisfied with the
+                        resolution?
+                        You can reopen this grievance.</div>
+                    <button class="sbtn"
+                        style="background:linear-gradient(135deg,var(--warn),#8a5200);width:auto;padding:.7rem 1.5rem"
+                        onclick="reopenGrievance()">🔄 Reopen Grievance</button>
+                </div>
+                <!-- Feedback -->
+                <div id="md-feedback-wrap" style="display:none;margin-top:1rem">
+                    <div class="divider"></div>
+                    <div style="font-weight:700;color:var(--navy);margin-bottom:.5rem">⭐ Rate the Resolution</div>
+                    <div class="stars" id="modal-stars">
+                        <span class="star" onclick="setRating(1)">★</span>
+                        <span class="star" onclick="setRating(2)">★</span>
+                        <span class="star" onclick="setRating(3)">★</span>
+                        <span class="star" onclick="setRating(4)">★</span>
+                        <span class="star" onclick="setRating(5)">★</span>
+                    </div>
+                    <textarea class="ft" id="feedback-text" placeholder="Share your feedback (optional)..."
+                        style="min-height:70px;margin-top:.7rem"></textarea>
+                    <button class="sbtn" style="margin-top:.7rem;width:auto;padding:.7rem 1.5rem"
+                        onclick="submitFeedback()">Submit Feedback →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success Modal -->
+        <div class="overlay" id="modal-success">
+            <div class="modal" style="text-align:center">
+                <div class="modal-icon success">✅</div>
+                <h3>Grievance Submitted!</h3>
+                <p>Your grievance has been registered. Track it using the ID below.</p>
+                <div class="gid-box" id="success-gid">GRV-XXXX-XXXX</div>
+                <p style="font-size:.8rem;color:var(--muted)">Expected response within <strong>48 working
+                        hours</strong>.
+                    Check your email for updates.</p>
+                <div class="modal-btns">
+                    <button
+                        style="flex:1;padding:.8rem;border-radius:10px;border:2px solid var(--cobalt);background:transparent;color:var(--cobalt);cursor:pointer;font-weight:600;font-family:'Plus Jakarta Sans',sans-serif"
+                        onclick="closeModal('modal-success');showPanel('s-list')">My Grievances</button>
+                    <button class="sbtn" style="flex:1"
+                        onclick="closeModal('modal-success');showPanel('s-track');setTimeout(()=>{ document.getElementById('track-id-input').value=lastGID;trackGrievance(); },100)">Track
+                        Now →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Track Modal (public) -->
+        <div class="overlay" id="modal-quicktrack">
+            <div class="modal">
+                <button class="modal-close" onclick="closeModal('modal-quicktrack')">✕</button>
+                <h3>Quick Track</h3>
+                <p>Enter your Grievance ID to check status without logging in.</p>
+                <div class="fg">
+                    <label class="fl">Grievance ID</label>
+                    <input class="fi" id="qt-input" placeholder="GRV-2024-001"
+                        onkeydown="if(event.key==='Enter')quickTrackSubmit()" />
+                </div>
+                <button class="sbtn" onclick="quickTrackSubmit()">Check Status →</button>
+                <div id="qt-result" style="display:none;margin-top:1.2rem">
+                    <div class="divider"></div>
+                    <div style="display:flex;justify-content:space-between;margin-bottom:.8rem">
+                        <div>
+                            <div style="font-size:.78rem;color:var(--muted)" id="qt-gid"></div>
+                            <div style="font-weight:700;color:var(--navy);font-size:1rem;margin-top:.2rem" id="qt-sub">
+                            </div>
+                        </div>
+                        <span class="badge" id="qt-badge"></span>
+                    </div>
+                    <div class="timeline" id="qt-timeline"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toast Notification -->
+        <div class="toast" id="toast"><span id="toast-msg">Done!</span></div>
+
+        <!-- JavaScript -->
+        <script type="module" src="firebase.js"></script>
+        <script src="app.js"></script>
+</body>
+<!-- Footer -->
+<footer class="footer">
+    <div class="footer-container">
+
+        <div class="footer-section">
+            <h3>DRIEMS University</h3>
+            <p>Grievance Management System to ensure transparency and quick resolution.</p>
+        </div>
+
+        <div class="footer-section">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Track Grievance</a></li>
+                <li><a href="#">Departments</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-section">
+            <h4>Contact</h4>
+            <p>Email: support@driems.ac.in</p>
+            <p>Phone: +91 9876543210</p>
+            <p>Location: Odisha, India</p>
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+        <p>© 2026 Developed and Maintained by <b>*Ritik-- Ritik-- Romit*</b> | All Rights Reserved</p>
+    </div>
+</footer>
+
+</html>
