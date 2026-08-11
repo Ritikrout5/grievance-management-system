@@ -30,9 +30,6 @@ This is a web-based application designed to help students and faculty submit, tr
 3. Data stored in Firestore
 4. Admin reviews and updates status
 
-## 🔗 Live Demo
-(Add your Firebase hosting link)
-
 ## 👨‍💻 Author
 Ritikranjan Rout
 
